@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Lens Cinema & Photography Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA820A',
+                            accent: '#FFDF00'
+                        },
+                        darkbg: '#0F0F10',
+                        cardbg: '#171719',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0F0F10;
+            color: #E2E8F0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF099 0%, #D4AF37 50%, #AA820A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-gradient {
+            border-image: linear-gradient(to right, #D4AF37, #F3E5AB, #AA820A) 1;
+        }
+
+        .gold-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            transition: all 0.3s ease;
+        }
+        .gold-button:hover {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .glass-card {
+            background: rgba(23, 23, 25, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0F10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272A;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="selection:bg-gold selection:text-black">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-40 bg-darkbg/80 backdrop-blur-md border-b border-gold/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <i class="fa-solid fa-camera-retro text-gold text-2xl"></i>
+                <span class="font-serif font-bold text-xl sm:text-2xl tracking-wider text-white">
+                    <span id="display-studio-name-header">ROYAL LENS</span>
+                    <span class="block text-[10px] tracking-[0.3em] text-gold uppercase font-sans font-normal">Cinematic Studio</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium uppercase tracking-widest text-gray-300">
+                <a href="#about" class="hover:text-gold transition">About</a>
+                <a href="#portfolio" class="hover:text-gold transition">Portfolio</a>
+                <a href="#services" class="hover:text-gold transition">Packages</a>
+                <a href="#reviews" class="hover:text-gold transition">Reviews</a>
+                <a href="#contact" class="hover:text-gold transition">Contact</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button onclick="openBookingModal()" class="gold-button text-black font-semibold text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full uppercase tracking-wider">
+                    Book Shoot
+                </button>
+
+                <!-- Customization Panel Toggle Trigger -->
+                <button onclick="toggleCustomizer()" title="Edit Studio Details" class="p-2.5 rounded-full bg-white/5 border border-gold/20 text-gold hover:bg-gold hover:text-black transition">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-btn" class="md:hidden text-white text-2xl p-2">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darkbg border-b border-gold/20 px-6 py-4 flex flex-col gap-4 text-sm font-medium uppercase tracking-widest text-gray-300">
+            <a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold">About</a>
+            <a href="#portfolio" onclick="toggleMobileMenu()" class="hover:text-gold">Portfolio</a>
+            <a href="#services" onclick="toggleMobileMenu()" class="hover:text-gold">Packages</a>
+            <a href="#reviews" onclick="toggleMobileMenu()" class="hover:text-gold">Reviews</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="hover:text-gold">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Overlay Image -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 transform scale-105 transition-transform duration-10000" 
+             style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=80');"></div>
+        
+        <!-- Gradient Shades -->
+        <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/70 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-darkbg/90 via-transparent to-darkbg/90"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center mt-12">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs sm:text-sm tracking-widest uppercase mb-6 backdrop-blur-md">
+                <i class="fa-solid fa-crown text-xs"></i>
+                <span>Premier Wedding & Event Cinema</span>
+            </div>
+
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                <span id="display-studio-name-hero">ROYAL LENS STUDIO</span>
+                <span class="block text-2xl sm:text-4xl md:text-5xl font-light italic gold-gradient-text mt-2" id="display-tagline">
+                    "Capturing Eternal Moments in Cinematic Perfection"
+                </span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-gray-400 text-sm sm:text-base md:text-lg mb-10 leading-relaxed font-light">
+                We craft timeless visual stories of love, emotion, and grand celebration. Specialized in high-end destination weddings, pre-wedding films, and luxury photography.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <a href="#portfolio" class="w-full sm:w-auto gold-button text-black font-semibold text-sm px-8 py-4 rounded-full uppercase tracking-widest flex items-center justify-center gap-2">
+                    <span>Explore Gallery</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+                <button onclick="openBookingModal()" class="w-full sm:w-auto bg-transparent border border-gold/40 text-gold hover:bg-gold/10 font-semibold text-sm px-8 py-4 rounded-full uppercase tracking-widest transition">
+                    Reserve Dates
+                </button>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="mt-16 sm:mt-24 grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-gold/10 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-gold mb-1">500+</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400">Weddings Filmed</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-gold mb-1">10+</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400">Years Experience</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-gold mb-1">35+</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400">Awards Won</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-gold mb-1">100%</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-darkbg border-t border-gold/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="relative">
+                    <div class="relative z-10 rounded-2xl overflow-hidden border border-gold/20 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1000&q=80" alt="Studio Owner Shoot" class="w-full h-[480px] object-cover">
+                    </div>
+                    <!-- Frame Accent -->
+                    <div class="absolute -bottom-6 -right-6 w-full h-full border-2 border-gold/30 rounded-2xl z-0 hidden sm:block"></div>
+                    
+                    <div class="absolute bottom-6 left-6 z-20 glass-card p-4 rounded-xl max-w-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-gold">
+                                <i class="fa-solid fa-award text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-serif font-bold text-sm">Best Wedding Videographer</h4>
+                                <p class="text-gray-400 text-xs">National Cinema Excellence 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-gold text-xs uppercase tracking-[0.3em] font-semibold">Behind The Lens</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2 mb-6">
+                        Crafting High-End Memories <br/>
+                        <span class="italic font-light text-gray-400">That Last Generations</span>
+                    </h2>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        Founded by <span id="display-owner-name-about" class="text-gold font-semibold">Pawan Jangir</span>, our studio combines artistic storytelling with cutting-edge technology. From grand royal palaces to intimate beachside vows, we specialize in capturing the raw emotions, fine details, and majestic grandeur of your special day.
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8">
+                        We utilize state-of-the-art camera systems, aerial drones, high-end color grading pipelines, and custom sound design to turn your wedding into an unforgettable film masterwork.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-card p-4 rounded-xl">
+                            <i class="fa-solid fa-gem text-gold text-xl mb-2"></i>
+                            <h4 class="font-serif text-white font-semibold text-sm">Cinematic Standard</h4>
+                            <p class="text-gray-400 text-xs mt-1">4K RAW footage & color grading.</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl">
+                            <i class="fa-solid fa-heart text-gold text-xl mb-2"></i>
+                            <h4 class="font-serif text-white font-semibold text-sm">Unscripted Emotions</h4>
+                            <p class="text-gray-400 text-xs mt-1">Authentic candid storytelling.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Gallery Section -->
+    <section id="portfolio" class="py-24 bg-[rgb(12,12,13)] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-gold text-xs uppercase tracking-[0.3em] font-semibold">Our Portfolio</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Masterpiece Works</h2>
+                <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto"></div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-12">
+                <button onclick="filterPortfolio('all')" class="portfolio-filter-btn active text-xs sm:text-sm uppercase tracking-wider px-5 py-2.5 rounded-full border border-gold/30 text-gold bg-gold/10 transition">
+                    All Works
+                </button>
+                <button onclick="filterPortfolio('royal')" class="portfolio-filter-btn text-xs sm:text-sm uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 text-gray-400 hover:border-gold/30 hover:text-gold transition">
+                    Royal Weddings
+                </button>
+                <button onclick="filterPortfolio('prewedding')" class="portfolio-filter-btn text-xs sm:text-sm uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 text-gray-400 hover:border-gold/30 hover:text-gold transition">
+                    Pre-Wedding
+                </button>
+                <button onclick="filterPortfolio('teaser')" class="portfolio-filter-btn text-xs sm:text-sm uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 text-gray-400 hover:border-gold/30 hover:text-gold transition">
+                    Cinematic Teasers
+                </button>
+                <button onclick="filterPortfolio('candid')" class="portfolio-filter-btn text-xs sm:text-sm uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 text-gray-400 hover:border-gold/30 hover:text-gold transition">
+                    Candid Shots
+                </button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Dynamic Portfolio Items inserted via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services & Pricing Packages -->
+    <section id="services" class="py-24 bg-darkbg border-t border-gold/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold text-xs uppercase tracking-[0.3em] font-semibold">Luxury Offerings</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Curated Wedding Packages</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Designed to deliver cinematic excellence tailored to your event scale.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                <!-- Standard Package -->
+                <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative transition-all duration-300 hover:-translate-y-2">
+                    <div>
+                        <div class="text-gold text-xs uppercase tracking-widest font-semibold mb-2">Essential</div>
+                        <h3 class="font-serif text-2xl font-bold text-white mb-4">Classic Heritage</h3>
+                        <div class="font-serif text-3xl font-extrabold text-gold mb-6">₹1,25,000 <span class="text-xs text-gray-400 font-sans font-normal">/ day</span></div>
+                        
+                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>2 Senior Photographers</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>1 Cinematic Videographer</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>300+ Color Edited Photos</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>3-5 Min Highlight Teaser</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>1 Premium Printed Photobook</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('Classic Heritage')" class="w-full py-3 rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-black font-semibold text-xs uppercase tracking-widest transition">
+                        Select Package
+                    </button>
+                </div>
+
+                <!-- Featured Luxury Package -->
+                <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative border-gold/60 bg-gold/5 shadow-2xl transition-all duration-300 hover:-translate-y-2 scale-105 z-10">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gold text-black text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full shadow-md">
+                        Most Popular
+                    </div>
+                    <div>
+                        <div class="text-gold text-xs uppercase tracking-widest font-semibold mb-2">Royal Experience</div>
+                        <h3 class="font-serif text-2xl font-bold text-white mb-4">Cinematic Grandeur</h3>
+                        <div class="font-serif text-3xl font-extrabold text-gold mb-6">₹2,50,000 <span class="text-xs text-gray-400 font-sans font-normal">/ day</span></div>
+                        
+                        <ul class="space-y-4 text-sm text-gray-200 mb-8">
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>3 Lead Candid Photographers</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>2 Cinematographers (4K Cinema Rig)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Drone Aerial Footage Included</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Pre-Wedding Concept Film</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Full Length Documentary Film</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>2 Handcrafted Luxury Leather Albums</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('Cinematic Grandeur')" class="w-full gold-button text-black font-bold text-xs py-3.5 rounded-full uppercase tracking-widest transition">
+                        Reserve Grand Package
+                    </button>
+                </div>
+
+                <!-- VIP Exclusive Package -->
+                <div class="glass-card rounded-2xl p-8 flex flex-col justify-between relative transition-all duration-300 hover:-translate-y-2">
+                    <div>
+                        <div class="text-gold text-xs uppercase tracking-widest font-semibold mb-2">Bespoke Destination</div>
+                        <h3 class="font-serif text-2xl font-bold text-white mb-4">Imperial Palace Signature</h3>
+                        <div class="font-serif text-3xl font-extrabold text-gold mb-6">Custom Quote</div>
+                        
+                        <ul class="space-y-4 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Full Director-Led Crew (10+ Staff)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Multi-Day Destination Coverage</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Live Streaming Setup (4K)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Same-Day Edit Video Teaser</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-gold"></i>
+                                <span>Unlimited Premium Albums & Prints</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('Imperial Signature')" class="w-full py-3 rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-black font-semibold text-xs uppercase tracking-widest transition">
+                        Request Consultation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="reviews" class="py-24 bg-[rgb(12,12,13)] border-t border-gold/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold text-xs uppercase tracking-[0.3em] font-semibold">Love Stories</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Words From Our Couples</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review Card 1 -->
+                <div class="glass-card p-8 rounded-2xl relative">
+                    <div class="flex text-gold text-sm gap-1 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-6">
+                        "Choosing Royal Lens for our royal palace wedding in Udaipur was the best decision. The teaser video looked like a Bollywood movie! Everyone was stunned by the quality."
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" class="w-12 h-12 rounded-full object-cover border border-gold/40">
+                        <div>
+                            <h4 class="text-white font-serif font-semibold text-sm">Ananya & Siddharth</h4>
+                            <span class="text-gray-500 text-xs">Udaipur Palace Wedding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Card 2 -->
+                <div class="glass-card p-8 rounded-2xl relative">
+                    <div class="flex text-gold text-sm gap-1 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-6">
+                        "Their team was so polite, punctual, and invisible during candid moments. They captured emotions we didn't even notice happening. Truly world-class videography!"
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" class="w-12 h-12 rounded-full object-cover border border-gold/40">
+                        <div>
+                            <h4 class="text-white font-serif font-semibold text-sm">Rohan & Meera</h4>
+                            <span class="text-gray-500 text-xs">Jaipur Resort Wedding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Card 3 -->
+                <div class="glass-card p-8 rounded-2xl relative">
+                    <div class="flex text-gold text-sm gap-1 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 italic text-sm leading-relaxed mb-6">
+                        "The color grading and lighting in our pre-wedding shoot was breathtaking. Pawan and his team are true artists. Highly recommended for premium shoots!"
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80" class="w-12 h-12 rounded-full object-cover border border-gold/40">
+                        <div>
+                            <h4 class="text-white font-serif font-semibold text-sm">Karan & Simran</h4>
+                            <span class="text-gray-500 text-xs">Goa Beachside Vows</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer & Contact Section -->
+    <footer id="contact" class="bg-darkbg text-gray-400 border-t border-gold/15 pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-16">
+                <!-- Col 1: Brand Info -->
+                <div class="md:col-span-2">
+                    <a href="#" class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-camera-retro text-gold text-2xl"></i>
+                        <span class="font-serif font-bold text-2xl text-white tracking-wider" id="display-studio-name-footer">
+                            ROYAL LENS
+                        </span>
+                    </a>
+                    <p class="text-sm leading-relaxed text-gray-400 max-w-sm mb-6">
+                        Premier destination wedding photography and cinematic wedding film studio. Creating heirlooms for a lifetime.
+                    </p>
+                    <div class="flex gap-4 text-gold">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-black transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-black transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-black transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-black transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-serif text-white font-semibold text-base mb-4 uppercase tracking-wider">Navigation</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#about" class="hover:text-gold transition">About Studio</a></li>
+                        <li><a href="#portfolio" class="hover:text-gold transition">Wedding Gallery</a></li>
+                        <li><a href="#services" class="hover:text-gold transition">Packages & Rates</a></li>
+                        <li><a href="#reviews" class="hover:text-gold transition">Client Reviews</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Direct Contact Details -->
+                <div>
+                    <h4 class="font-serif text-white font-semibold text-base mb-4 uppercase tracking-wider">Studio Office</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-gold mt-1"></i>
+                            <span id="display-address">Fatehpur Shekhawati, Sikar, Rajasthan 332301</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-gold"></i>
+                            <span id="display-phone">+91 98765 43210</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-gold"></i>
+                            <span id="display-email">info@royallensstudio.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+                <p>© <span id="year"></span> <span id="display-studio-copyright">Royal Lens Studio</span>. All rights reserved.</p>
+                <p class="flex items-center gap-1">Designed for Luxury Wedding Cinema & Studio</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Lightbox Modal for Images/Videos -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-3xl hover:text-gold transition">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+            <img id="lightbox-img" src="" class="max-w-full max-h-[75vh] object-contain rounded-lg border border-gold/30">
+            <h3 id="lightbox-title" class="font-serif text-xl font-bold text-white mt-4"></h3>
+            <p id="lightbox-desc" class="text-gold text-xs uppercase tracking-widest mt-1"></p>
+        </div>
+    </div>
+
+    <!-- Booking / Inquiry Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-2xl p-6 sm:p-8 relative border-gold/40 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-calendar-check text-gold text-3xl mb-2"></i>
+                <h3 class="font-serif text-2xl font-bold text-white">Book Your Shoot</h3>
+                <p class="text-gray-400 text-xs mt-1">Fill out the details below to check dates availability</p>
+            </div>
+
+            <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 mb-1">Your Name</label>
+                        <input type="text" required placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 mb-1">Phone Number</label>
+                        <input type="tel" required placeholder="+91 9876543210" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 mb-1">Event Date</label>
+                        <input type="date" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 mb-1">Select Package</label>
+                        <select id="booking-package-select" class="w-full bg-darkbg border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold">
+                            <option value="Classic Heritage">Classic Heritage (₹1.25L)</option>
+                            <option value="Cinematic Grandeur">Cinematic Grandeur (₹2.50L)</option>
+                            <option value="Imperial Signature">Imperial Signature (Custom)</option>
+                            <option value="Pre-Wedding Shoot">Pre-Wedding Shoot Only</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-300 mb-1">Event City / Location</label>
+                    <input type="text" placeholder="e.g. Udaipur, Jaipur, Delhi" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold">
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-300 mb-1">Message / Special Requirements</label>
+                    <textarea rows="3" placeholder="Tell us about your wedding vision..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold"></textarea>
+                </div>
+
+                <button type="submit" class="w-full gold-button text-black font-bold py-3.5 rounded-lg uppercase tracking-widest text-sm mt-4">
+                    Send Booking Inquiry
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Studio Details Customizer Drawer Panel -->
+    <div id="customizer-panel" class="fixed top-0 right-0 h-full w-80 sm:w-96 bg-darkbg border-l border-gold/30 z-50 transform translate-x-full transition-transform duration-300 p-6 overflow-y-auto shadow-2xl">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gold/20">
+            <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-gold"></i> Edit Studio Profile
+            </h3>
+            <button onclick="toggleCustomizer()" class="text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <p class="text-xs text-gray-400 mb-6">Update your friend's studio details here in real-time to customize this website instantly!</p>
+
+        <div class="space-y-4 text-xs">
+            <div>
+                <label class="block text-gray-300 uppercase tracking-wider mb-1">Studio Name</label>
+                <input type="text" id="input-studio-name" value="Royal Lens Studio" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white focus:border-gold outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-300 uppercase tracking-wider mb-1">Owner / Lead Photographer</label>
+                <input type="text" id="input-owner-name" value="Pawan Jangir" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white focus:border-gold outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-300 uppercase tracking-wider mb-1">Tagline</label>
+                <input type="text" id="input-tagline" value="Capturing Eternal Moments in Cinematic Perfection" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white focus:border-gold outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-300 uppercase tracking-wider mb-1">Phone Number</label>
+                <input type="text" id="input-phone" value="+91 98765 43210" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white focus:border-gold outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-300 uppercase tracking-wider mb-1">Email Address</label>
+                <input type="email" id="input-email" value="info@royallensstudio.com" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white focus:border-gold outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-300 uppercase tracking-wider mb-1">Studio Address</label>
+                <input type="text" id="input-address" value="Fatehpur Shekhawati, Sikar, Rajasthan" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white focus:border-gold outline-none">
+            </div>
+
+            <button onclick="applyCustomizations()" class="w-full gold-button text-black font-bold py-3 rounded uppercase tracking-wider text-xs mt-6">
+                Apply Updates
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Interactivity Logic -->
+    <script>
+        // Sample Portfolio Items Data
+        const portfolioItems = [
+            {
+                id: 1,
+                title: "Royal Palace Vows",
+                category: "royal",
+                type: "photo",
+                image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+                location: "Udaipur Palace"
+            },
+            {
+                id: 2,
+                title: "Cinematic Wedding Teaser",
+                category: "teaser",
+                type: "video",
+                image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80",
+                location: "Jaipur Fort"
+            },
+            {
+                id: 3,
+                title: "Desert Sunset Pre-Wedding",
+                category: "prewedding",
+                type: "photo",
+                image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80",
+                location: "Jaisalmer Dunes"
+            },
+            {
+                id: 4,
+                title: "Pure Emotion & Vows",
+                category: "candid",
+                type: "photo",
+                image: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80",
+                location: "Grand Hyatt Delhi"
+            },
+            {
+                id: 5,
+                title: "Traditional Heritage Rituals",
+                category: "royal",
+                type: "photo",
+                image: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=800&q=80",
+                location: "Jodhpur Palace"
+            },
+            {
+                id: 6,
+                title: "Romantic Beach Vows",
+                category: "prewedding",
+                type: "photo",
+                image: "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=800&q=80",
+                location: "South Goa"
+            }
+        ];
+
+        // Render Portfolio Grid
+        function renderPortfolio(items) {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = items.map(item => `
+                <div class="glass-card rounded-xl overflow-hidden group cursor-pointer relative" onclick="openLightbox('${item.image}', '${item.title}', '${item.location}')">
+                    <div class="relative h-72 overflow-hidden">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                        
+                        ${item.type === 'video' ? `
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-14 h-14 rounded-full bg-gold/80 flex items-center justify-center text-black shadow-lg transform group-hover:scale-110 transition">
+                                    <i class="fa-solid fa-play text-xl ml-1"></i>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <span class="text-[10px] text-gold uppercase tracking-widest font-semibold">${item.location}</span>
+                            <h3 class="font-serif text-lg font-bold text-white group-hover:text-gold transition">${item.title}</h3>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Portfolio
+        function filterPortfolio(category) {
+            document.querySelectorAll('.portfolio-filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gold/10', 'border-gold/30', 'text-gold');
+                btn.classList.add('border-white/10', 'text-gray-400');
+            });
+
+            event.target.classList.add('active', 'bg-gold/10', 'border-gold/30', 'text-gold');
+            event.target.classList.remove('border-white/10', 'text-gray-400');
+
+            if (category === 'all') {
+                renderPortfolio(portfolioItems);
+            } else {
+                const filtered = portfolioItems.filter(item => item.category === category);
+                renderPortfolio(filtered);
+            }
+        }
+
+        // Lightbox Logic
+        function openLightbox(img, title, desc) {
+            document.getElementById('lightbox-img').src = img;
+            document.getElementById('lightbox-title').innerText = title;
+            document.getElementById('lightbox-desc').innerText = desc;
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        // Booking Modal Logic
+        function openBookingModal(packageName = '') {
+            if (packageName) {
+                document.getElementById('booking-package-select').value = packageName;
+            }
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            alert('Thank you! Your booking inquiry has been received. Our team will contact you shortly.');
+            closeBookingModal();
+        }
+
+        // Customizer Drawer Logic
+        function toggleCustomizer() {
+            const panel = document.getElementById('customizer-panel');
+            panel.classList.toggle('translate-x-full');
+        }
+
+        function applyCustomizations() {
+            const studioName = document.getElementById('input-studio-name').value;
+            const ownerName = document.getElementById('input-owner-name').value;
+            const tagline = document.getElementById('input-tagline').value;
+            const phone = document.getElementById('input-phone').value;
+            const email = document.getElementById('input-email').value;
+            const address = document.getElementById('input-address').value;
+
+            document.getElementById('display-studio-name-header').innerText = studioName.toUpperCase();
+            document.getElementById('display-studio-name-hero').innerText = studioName.toUpperCase();
+            document.getElementById('display-studio-name-footer').innerText = studioName.toUpperCase();
+            document.getElementById('display-studio-copyright').innerText = studioName;
+
+            document.getElementById('display-owner-name-about').innerText = ownerName;
+            document.getElementById('display-tagline').innerText = `"${tagline}"`;
+
+            document.getElementById('display-phone').innerText = phone;
+            document.getElementById('display-email').innerText = email;
+            document.getElementById('display-address').innerText = address;
+
+            toggleCustomizer();
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // Initial Setup
+        window.onload = function() {
+            renderPortfolio(portfolioItems);
+            document.getElementById('year').innerText = new Date().getFullYear();
+        }
+    </script>
+</body>
+</html>
